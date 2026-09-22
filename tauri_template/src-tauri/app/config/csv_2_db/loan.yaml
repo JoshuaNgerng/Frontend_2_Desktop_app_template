@@ -1,0 +1,15 @@
+target: loan
+
+exclude: 
+- upload_batch
+- filename
+- db_specfic_fields
+
+optional_fields:
+- optional_field1 
+- optional_field2 
+
+add_bind_values:
+  - name: excel_specific_fields
+    type: String
+

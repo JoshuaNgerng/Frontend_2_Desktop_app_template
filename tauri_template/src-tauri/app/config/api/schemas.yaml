@@ -1,0 +1,12 @@
+response:
+  - schema_name: Example 
+    fields:
+      - name: name
+        type: string
+        nullable: false
+      - name: totalRecords
+        type: u64 
+        nullable: false
+      - name: totalLimit
+        type: u64 
+        nullable: true

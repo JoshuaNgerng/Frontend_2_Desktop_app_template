@@ -1,0 +1,9 @@
+[package]
+name = "dto_traits"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+polars = { version = "0.53.0", features = ["lazy", "csv"] }
+sqlx = { version = "0.9" }
+anyhow = "1.0.102"

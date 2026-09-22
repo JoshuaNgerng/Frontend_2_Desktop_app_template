@@ -1,0 +1,12 @@
+input_path:
+  db_schema: config/schema
+  dto: config/dto
+  csv: config/csv_2_db
+  schemas: config/api/schemas.yaml
+
+output_path:
+  target_dir: src
+  prefix: generated
+  db_path: models
+  dto: dto
+  schemas: schemas

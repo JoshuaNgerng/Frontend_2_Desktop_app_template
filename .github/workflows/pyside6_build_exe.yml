@@ -1,0 +1,36 @@
+name: Manual Build Windows EXE for pyside6 template
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    environment: production
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install -r pyside6_template/requirements.txt
+        pip install pyinstaller PySide6
+
+    - name: Build resources and EXE
+      shell: pwsh
+      run: |
+        cd pyside6_template/ 
+        python config_resources_qrc.py  
+        pyinstaller main.py --noconfirm --windowed --collect-all PySide6 --name hp_portfolio
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: my-app
+        path: pyside6_template/dist

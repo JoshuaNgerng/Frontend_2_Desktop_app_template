@@ -1,0 +1,7 @@
+# ignore current frontend
+assets
+hooks 
+pages 
+components
+schemas 
+utils

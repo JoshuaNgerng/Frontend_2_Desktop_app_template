@@ -1,0 +1,12 @@
+dto_target: derived
+
+mapping:
+  - target: created_at
+    new: uploaded_at
+
+exclude:
+  - updated_at
+
+load_dep: true
+
+convert_case: Camel

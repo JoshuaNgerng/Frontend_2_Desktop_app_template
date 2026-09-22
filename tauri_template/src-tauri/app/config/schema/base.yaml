@@ -1,0 +1,8 @@
+
+fields:
+  - name: id
+    type: u64
+  - name: created_at
+    type: chrono::NaiveDateTime
+  - name: updated_at
+    type: chrono::NaiveDateTime

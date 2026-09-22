@@ -1,0 +1,4 @@
+table: loan_records
+
+shared_fields:
+  - base

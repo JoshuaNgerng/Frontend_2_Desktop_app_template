@@ -1,0 +1,33 @@
+name: Build Tauri hp-portfolio-v1 Windows App
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install dependencies
+        run: cd tauri_template; npm install
+
+      - name: Build Tauri app
+        run: cd tauri_template; npm run tauri build
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: tauri-windows-build
+          path: tauri_template/src-tauri/target/release/bundle/
