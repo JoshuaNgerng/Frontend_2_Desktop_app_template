@@ -5,10 +5,7 @@ from typing import Any, Callable
 from PySide6.QtCore import QObject, Slot, QThreadPool, Signal
 from PySide6.QtWidgets import QFileDialog
 
-from pydantic import ValidationError
-
 from backend.worker_thread.base_thread import WorkerBase
-from backend.worker_thread.process_file import DataIngestion
 from backend.core.database import get_db
 
 class BackendBridge(QObject):
@@ -25,21 +22,19 @@ class BackendBridge(QObject):
         self.active_tasks = set()
         # store active threads to prevent premature garbage collection from python
 
-    @Slot(str, str, str, str)
+    @Slot(str, str, str)
     def request(
-        self, request_id: str, method: str,
+        self, request_id: str,
         path: str, payload_json: str
     ):
 
         try:
             payload = json.loads(payload_json) if payload_json else {}
 
-            key = (method.upper(), path)
-
-            WorkerClass, app_context_func = self.routes.get(key, (None, None))
+            WorkerClass, app_context_func = self.routes.get(path, (None, None))
 
             if not WorkerClass:
-                raise Exception(f"No route for {method} {path}")
+                raise Exception(f"No route for {path}")
 
             app_context = app_context_func() if app_context_func else None
 
@@ -61,7 +56,7 @@ class BackendBridge(QObject):
 
         self.active_tasks.clear()
 
-        print("ThreadPool will finish remaining tasks automatically")
+        print("ThreadPool will clear remaining tasks automatically")
 
     def run_worker(self, task: WorkerBase):
         self.active_tasks.add(task)
@@ -86,12 +81,12 @@ class BackendBridge(QObject):
         return file_path
     
     def get_route_mapping(self)-> dict[
-        tuple[str, str],
+        str,
         tuple[type[WorkerBase], Callable[[], Any] | None]
     ]:
         return {
-            ('GET', '/example'): (ExamplePydanticInfo, None),
-            ('POST', '/example/upload'): (
+            'get_example': (ExamplePydanticInfo, None),
+            'post_example_upload': (
                 DataIngestion,
                 lambda : self._get_file('Excel/CSV Files', '*.xlsx *.xls *.csv')
             )
