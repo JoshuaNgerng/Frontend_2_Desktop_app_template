@@ -1,0 +1,4 @@
+use reactjs as an example
+create a layer for request and response schema
+create a layer for expected endpoints
+create a layer to convert http api calls to special invoke or bridge calls
